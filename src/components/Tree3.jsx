@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import Tree from "react-d3-tree";
 import { useSelector } from "react-redux";
-import { helperAbi, helperAddress, mlmabi, mlmcontractaddress, web3 } from "../config";
+import { helperAbi, helperAddress, web3 } from "../config";
+import { useAppKitAccount } from "@reown/appkit/react";
 
 export default function Tree2() {
   const { uplines } = useSelector((state) => state.contract);
   const [treeData, setTreeData] = useState(null);
   const treeContainer = useRef(null);
+  const { address } = useAppKitAccount();
 
   // Map package ID to color
   const getColorByPackageId = (pkgId) => {
@@ -34,7 +36,7 @@ export default function Tree2() {
       const pkg = await contract.methods.userPackage(address).call();
 
       const node = {
-        name: address.slice(0, 4) + "..."+address.slice(-4), // short address
+        name: address.slice(0, 4) + "..." + address.slice(-4),
         attributes: {
           address,
           packageId: pkg.id,
@@ -70,14 +72,24 @@ export default function Tree2() {
     fetchTree();
   }, [uplines]);
 
-  // Custom node renderer with color coding
+  // Custom node renderer with red outline for current user's address
   const renderCustomNode = ({ nodeDatum }) => {
     const color = getColorByPackageId(nodeDatum.attributes?.packageId);
+    const nodeAddress = nodeDatum.attributes?.address?.toLowerCase();
+    const currentAddress = address?.toLowerCase();
+
+    // If this node is the logged-in user, make red outline
+    const isCurrentUser = nodeAddress === currentAddress;
 
     return (
       <g>
-        <circle r={20} fill={color} stroke="#333" strokeWidth={2} />
-        <text  x={25} dy={5} fontSize="18">
+        <circle
+          r={20}
+          fill={color}
+          stroke={isCurrentUser ? "red" : "#333"}
+          strokeWidth={isCurrentUser ? 4 : 2}
+        />
+        <text x={25} dy={5} fontSize="18">
           {nodeDatum.name}
         </text>
         <text fill="#555" x={25} dy={20} fontSize="10">
