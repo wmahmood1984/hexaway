@@ -242,8 +242,10 @@ function App() {
       </div>
 
 
-      <Tree2 />
 
+*/}
+
+      <Tree2 />
 
       {NFTMayBeCreated && (
         <div className="text-center mb-6">
@@ -257,18 +259,20 @@ function App() {
       )}
 
 
+
+
+
+
+
+      <MintModal isOpen={isOpen} onClose={() => setIsOpen(false)} /> 
+
       <ProfileSection />
-
-
-      <div>
+            <div>
         <h2 className="text-2xl font-semibold mb-4 text-gray-700">
           NFT Collection
         </h2>
         <NFTGrid />
       </div>
-
-
-      <MintModal isOpen={isOpen} onClose={() => setIsOpen(false)} /> */}
 
 
       <section className="bg-[#0a0125] py-0 text-white  mobmrginss">

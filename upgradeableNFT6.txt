@@ -163,6 +163,7 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
 
         sendConditional(_referrer, amount / 2, 1);
 
+
         userTradingTime[_user] = block.timestamp;
         userLevelIncomeBlockTime[_user] = block.timestamp;
     }
@@ -194,7 +195,7 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
             return placement;
         }
 
-        address[] memory upline = users[_root].direct;
+        address[] memory upline = users[_root].indirect;
 
         for (uint i = 0; i < upline.length; i++) {
             if (users[upline[i]].children.length < 2) {
@@ -244,6 +245,8 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
         userPackage[_user] = tx1;
 
         paymentToken.transfer(owner(), (amount * 10) / 100);
+
+        
         address up = users[_user].referrer;
 
         sendConditional(up, (amount * 20) / 100, 2);
@@ -269,7 +272,7 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
     function buyNFT(
         uint id,
         address _user
-    ) public returns (bool _burn, address _owner) {
+     ) public returns (bool _burn, address _owner) {
         require(id > 0, "invalid id");
         uint index = id - 1;
         require(index < nfts.length, "NFT does not exist");
@@ -343,6 +346,7 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
             oldOwner,
             ((amount * percentageAtBuyToTrader) / percentageAtBuy)
         );
+        userTradingIncome[oldOwner]+=((amount * percentageAtBuyToTrader) / percentageAtBuy);
         paymentToken.transfer(
             owner(),
             ((amount * percentageAtBuyToAdmin) / percentageAtBuy)
@@ -387,7 +391,7 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
 
         if (_uplines.length == 25) {
             paymentToken.transfer(_uplines[24], (_amount * 10) / 100);
-            userTradingIncome[_uplines[24]] += (_amount * 10) / 100;
+            userLevelIncome[_uplines[24]] += (_amount * 10) / 100;
         } else {
             paymentToken.transfer(owner(), (_amount * 10) / 100);
         }

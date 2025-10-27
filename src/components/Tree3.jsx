@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Tree from "react-d3-tree";
 import { useSelector } from "react-redux";
-import { mlmabi, mlmcontractaddress, web3 } from "../config";
+import { helperAbi, helperAddress, mlmabi, mlmcontractaddress, web3 } from "../config";
 
 export default function Tree2() {
   const { uplines } = useSelector((state) => state.contract);
@@ -61,7 +61,7 @@ export default function Tree2() {
     const fetchTree = async () => {
       if (!uplines || uplines.length === 0) return;
 
-      const contract = new web3.eth.Contract(mlmabi, mlmcontractaddress);
+      const contract = new web3.eth.Contract(helperAbi, helperAddress);
       const rootAddress = uplines[uplines.length - 1];
       const tree = await buildTree(rootAddress, contract);
       setTreeData(tree);

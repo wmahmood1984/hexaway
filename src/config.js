@@ -1961,9 +1961,9 @@ export const helperAbi = [
 	}
 ]
 
-export const helperAddress = "0xe3953512597F44785CC7c0976E6902050e4a713F"
+export const helperAddress = "0xB3311695686A0C12cc01D948230A66AA727d31c7"
 
-export const mlmcontractaddress = "0xDa564B04b5fa350ffB3AE902d714D16EfCC1Db5d";
+export const mlmcontractaddress = "0x3a0C707F1853B8e269329904663303aCfa12f028";
 
 export const mlmcontractaddressImplementation =
   "0xB9605fAe41F3D602e576a5Fa30dfCa810A35B76E";

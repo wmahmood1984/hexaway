@@ -9,7 +9,7 @@ import { executeContract } from "./utils/contractExecutor";
 import { readName } from "./slices/contractSlice";
 
 
-export const Image = ({ nft, index }) => {
+export const Image = ({ nft, index,toggle,setToggle }) => {
     const config = useConfig()
     const [image, setImage] = useState()
     const [name, setName] = useState()
@@ -46,6 +46,7 @@ export const Image = ({ nft, index }) => {
                 console.log("🎉 Tx Hash:", txHash);
                 console.log("🚀 Tx Receipt:", receipt);
                 dispatch(readName({ address: receipt.from }));
+                setToggle(!toggle)
             },
             onError: (err) => alert("Transaction failed",err),
         });
@@ -58,7 +59,7 @@ export const Image = ({ nft, index }) => {
         //     handleBuy2(id, address)
         // } else {
 
-            const value = Number(formatEther(nft.premium)) + Number(formatEther(nft.price)*0.07)
+            const value = Number(formatEther(nft.price)*1.07).toFixed(4)
             console.log("value", value.toString())
             await executeContract({
                 config,
@@ -73,7 +74,7 @@ export const Image = ({ nft, index }) => {
 
     };
 
-console.log("first",nft)
+
 
     return (image && name &&
 
@@ -120,7 +121,8 @@ console.log("first",nft)
 
 const NFTGrid = () => {
 
-      const [nfts,setNFTs]= useState()  
+      const [nfts,setNFTs]= useState()
+        const [toggle,setToggle]= useState(false)  
       const helperContract = new web3.eth.Contract(helperAbi,helperAddress)
     
       useEffect(()=>{
@@ -134,7 +136,7 @@ const NFTGrid = () => {
         abc()
     
     
-      },[])
+      },[toggle])
 
 //console.log("nft",nfts)
     return (nfts && 
@@ -142,7 +144,7 @@ const NFTGrid = () => {
             {nfts.map((nft, index) => {
              if(nft._owner!="0x0000000000000000000000000000000000000000"){
                 return (
-                <Image nft={nft} index={index} key={index} />
+                <Image nft={nft} index={index} key={index} toggle={toggle} setToggle={setToggle}/>
             )
              }   
 

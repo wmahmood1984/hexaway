@@ -9,6 +9,7 @@ import { useConfig } from "wagmi";
 import { readName } from "./slices/contractSlice";
 import { Image } from "./NFTGrid";
 import MintModal from "./components/MintModal";
+//import { saveRelationship } from "./utils/saveRelationship";
 
 const ProfileSection = () => {
     const config = useConfig()
@@ -32,12 +33,23 @@ const handleRegister2 = async () => {
             console.log("🎉 Tx Hash:", txHash);
             console.log("🚀 Tx Receipt:", receipt);
             dispatch(readName({ address: receipt.from }));
+            updatetree()
         },
         onError: (err) => {
             console.error("Registration failed:", err);
         },
     });
 };
+
+ const updatetree = async (e) => {
+    e.preventDefault();
+
+    // Example children: comma separated -> split into array
+ 
+//    const res = await saveRelationship(address, parent, childArray);
+
+  //  if (res) alert("Saved successfully!");
+  };
 
 
 
@@ -109,8 +121,7 @@ const NFTQuebalance1 = normalizedQue.indexOf(normalizedAddr) !== 0
     ? "0"
     : formatEther(NFTQueBalance);
 
-
-console.log("downlines", tradingIncome,levelIncome,referralIncome);
+console.log("downlines", downlines);
 return (status === "loading" ? <p className="text-gray-600">Loading...</p> :
     error ? <p className="text-red-600 font-semibold">{error}</p> :
         registered ?
@@ -132,12 +143,12 @@ return (status === "loading" ? <p className="text-gray-600">Loading...</p> :
                         </div> */}
                     <div className="singlepckagebox shadow">
                         <h2 className="text-sm text-gray-500">Team size</h2>
-                        <p className="font-bold text-gray-800">{downlines.indirect.length}</p>
+                        <p className="font-bold text-gray-800">{downlines.indirect.length-2}</p>
                     </div>
 
                     <div className="singlepckagebox shadow">
                         <h2 className="text-sm text-gray-500">Team size</h2>
-                        <p className="font-bold text-gray-800">{downlines.indirect.length}</p>
+                        <p className="font-bold text-gray-800">{downlines.indirect.length-2}</p>
                     </div>
                     <div className="singlepckagebox shadow">
                         <h2 className="text-sm text-gray-500">Direct Referrals</h2>

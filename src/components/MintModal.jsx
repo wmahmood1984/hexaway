@@ -46,7 +46,7 @@ export default function MintModal({ isOpen, onClose }) {
           await executeContract({
               config,
               functionName: "mint",
-              args: [uri,add],
+              args: [uri],
               onSuccess: (txHash, receipt) => {
                   console.log("🎉 Tx Hash:", txHash);
                   console.log("🚀 Tx Receipt:", receipt);
