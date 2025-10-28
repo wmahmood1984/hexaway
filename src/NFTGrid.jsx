@@ -59,12 +59,12 @@ export const Image = ({ nft, index,toggle,setToggle }) => {
         //     handleBuy2(id, address)
         // } else {
 
-            const value = Number(formatEther(nft.price)*1.07).toFixed(4)
-            console.log("value", value.toString())
+            const value = Number(formatEther(nft.price)*.07)+Number(formatEther(nft.premium))
+            console.log("value", Number(value).toFixed(8))
             await executeContract({
                 config,
                 functionName: "approve",
-                args: [mlmcontractaddress, parseEther(value.toString())],
+                args: [mlmcontractaddress, parseEther(Number(value).toFixed(8))],
                 onSuccess: () => handleBuy2(id, address),
                 onError: (err) => alert("Transaction failed",err),
                 contract: usdtContract
@@ -138,7 +138,7 @@ const NFTGrid = () => {
     
       },[toggle])
 
-//console.log("nft",nfts)
+console.log("nft",nfts)
     return (nfts && 
         <div className=" p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {nfts.map((nft, index) => {

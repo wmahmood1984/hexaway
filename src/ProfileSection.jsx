@@ -121,7 +121,7 @@ const NFTQuebalance1 = normalizedQue.indexOf(normalizedAddr) !== 0
     ? "0"
     : formatEther(NFTQueBalance);
 
-console.log("downlines", downlines);
+
 return (status === "loading" ? <p className="text-gray-600">Loading...</p> :
     error ? <p className="text-red-600 font-semibold">{error}</p> :
         registered ?
