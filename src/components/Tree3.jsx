@@ -3,8 +3,10 @@ import Tree from "react-d3-tree";
 import { useSelector } from "react-redux";
 import { helperAbi, helperAddress, web3 } from "../config";
 import { useAppKitAccount } from "@reown/appkit/react";
+import { useNavigate } from "react-router-dom";
 
 export default function Tree2() {
+  const navigate = useNavigate()
   const { uplines } = useSelector((state) => state.contract);
   const [treeData, setTreeData] = useState(null);
   const treeContainer = useRef(null);
@@ -113,6 +115,10 @@ export default function Tree2() {
       ) : (
         <h4>Loading tree data...</h4>
       )}
+
+      <button 
+      onClick={()=>navigate("/dashboard")}
+      >Back to dashboard</button>
     </div>
   );
 }

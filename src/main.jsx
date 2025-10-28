@@ -10,6 +10,7 @@ import { AppKitProvider } from './WagmiProvider.jsx'
 import { Provider } from 'react-redux'
 import store from './store'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Tree2 from './components/Tree3.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -20,6 +21,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/" element={<App />} />
             <Route path="/contract" element={<ContractPage />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/tree" element={<Tree2 />} />
            
              <Route path="/dashboard" element={<Dashboard />} /> 
           </Routes>

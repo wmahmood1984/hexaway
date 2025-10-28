@@ -245,7 +245,7 @@ function App() {
 
 */}
 
-      <Tree2 />
+      {/* <Tree2 />
 
       {NFTMayBeCreated && (
         <div className="text-center mb-6">
@@ -272,7 +272,7 @@ function App() {
           NFT Collection
         </h2>
         <NFTGrid />
-      </div>
+      </div> */}
 
 
       <section className="bg-[#0a0125] py-0 text-white  mobmrginss">

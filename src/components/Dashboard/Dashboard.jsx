@@ -3,11 +3,11 @@ import "../../App.css";
 import Header from "../Header/Header.jsx";
 import Footer from "../Footer/Footer.jsx";
 import Sidebar from "../Sidebar/Sidebar.jsx";
-import { mlmcontractaddress, usdtContract } from "../../config";
+import { erc20abi, erc20Add, helperAbi, helperAddress, incomeKeys, mlmcontractaddress, usdtContract, web3 } from "../../config";
 import { executeContract } from "../../utils/contractExecutor";
 import { useDispatch, useSelector } from "react-redux";
 import { useAppKitAccount } from "@reown/appkit/react";
-import { ethers } from "ethers";
+import { ethers, formatEther } from "ethers";
 import { useConfig } from "wagmi";
 import { init, readName } from "../../slices/contractSlice";
 
@@ -26,26 +26,86 @@ export default function MagicverseDashboard() {
 
   // Defensive selector with defaults so the UI never crashes
   const {
-    Package = { id: 0, price: ethers.parseEther("0"), limit: ethers.parseEther("0"), team: 0 },
-    myNFTs = [],
-    packages = [],
-    downlines = { direct: [], indirect: [] },
-    registered = false,
-    admin = "0x0000000000000000000000000000000000000000",
-    allowance = "0",
-    NFTQueBalance = ethers.parseEther("0"),
-    limitUtilized = ethers.parseEther("0"),
-    NFTque = [],
-    levelIncome = ethers.parseEther("0"),
-    referralIncome = ethers.parseEther("0"),
-    tradingIncome = ethers.parseEther("0"),
-    status = "idle",
-    error = null,
-  } = useSelector((state) => state.contract || {});
+    Package,
+    myNFTs,
+    packages,
+    downlines,
+    registered,
+    admin,
+    allowance,
+    NFTQueBalance,
+    limitUtilized,
+    NFTque,
+
+    levelIncome,
+    referralIncome,
+    tradingIncome,
+    status,
+    error,
+  } = useSelector((state) => state.contract);
 
   const [active, setActive] = useState("dashboard");
   const [loading, setLoading] = useState(false);
+  const [ transactions,setTransaction] = useState()
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+          const [usdBalance,setUsdBalance]= useState(0)  
+                    const [toggle,setToggle]= useState(false)  
+        const helperContract = new web3.eth.Contract(helperAbi,helperAddress)
+                const usdtContract = new web3.eth.Contract(erc20abi,erc20Add)
+      
+        useEffect(()=>{
+      
+      
+          const abc = async ()=>{
+            if(address){
+            const _usdtBalance = await usdtContract.methods.balanceOf(address).call()
+            setUsdBalance(Number(formatEther(_usdtBalance)).toFixed(4))
+            }
+
+          }
+      
+          abc()
+      
+      
+        },[address,toggle])
+
+
+       useEffect(() => {
+  const bringTransaction = async () => {
+    if (!address) return;
+
+    const fromBlock = 70443060;
+    const latestBlock = await web3.eth.getBlockNumber();
+    const step = 5000; // or smaller if node still complains
+    let allEvents = [];
+
+    for (let i = fromBlock; i <= latestBlock; i += step) {
+      const toBlock = Math.min(i + step - 1, latestBlock);
+
+      try {
+        const events = await helperContract.getPastEvents("Incomes", 
+          
+          {
+          
+          fromBlock: i,
+          toBlock: toBlock,
+        });
+        allEvents = allEvents.concat(events);
+        setTransaction(allEvents)
+        // console.log(`Fetched ${events.length} events from ${i} to ${toBlock}`);
+      } catch (error) {
+        console.warn(`Error fetching from ${i} to ${toBlock}`, error);
+      }
+    }
+
+    console.log("All events:", allEvents);
+  };
+
+  bringTransaction();
+}, [address, toggle]);
+
+
 
   
   const handleUpdate = async (pkg) => {
@@ -120,8 +180,8 @@ const handleUpdate2 = async (id) => {
   const tradingIncomeFormatted = format(tradingIncome);
   const referralIncomeFormatted = format(referralIncome);
   const levelIncomeFormatted = format(levelIncome);
-  const packagePriceFormatted = format(currentPackage?.price ?? Package.price);
-  const packageLimitFormatted = format(currentPackage?.limit ?? Package.limit);
+  const packagePriceFormatted = 0//format(currentPackage?.price ?? Package.price);
+  const packageLimitFormatted = 0//format(currentPackage?.limit ?? Package.limit);
 
   const [user] = useState({
     id: 816461,
@@ -150,7 +210,15 @@ const handleUpdate2 = async (id) => {
     right: { id: "771275", children: ["773001", "773002", "773003"] },
   };
 
-  return (
+  const purchaseTime = `${new Date(Package?.purchaseTime*1000).getDate()}-${new Date(Package?.purchaseTime*1000).getMonth()}-${new Date(Package?.purchaseTime*1000).getFullYear()}`
+
+  const filteredTransactions = transactions && transactions.filter(e=>e.
+returnValues.
+_user===address).map((v,e)=>{return ({values:v.returnValues,hash:v.transactionHash})})
+
+
+transactions && console.log("usdt",filteredTransactions);
+  return ( 
     <div className="min-h-screen bg-gradient-to-b from-[#040213] via-[#070427] to-[#07031a] text-slate-100">
       <Header onRegister={() => setIsProfileOpen(true)} />
       <div className="container">
@@ -179,7 +247,7 @@ const handleUpdate2 = async (id) => {
 
                   <div className="text-right hidden sm:block">
                     <div className="text-xs text-indigo-200">Wallet Balance</div>
-                    <div className="text-lg font-bold">{user.walletFund} USDT</div>
+                    <div className="text-lg font-bold">{usdBalance} USDT</div>
                   </div>
 
                   <button onClick={() => setIsProfileOpen(true)} className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10">
@@ -193,37 +261,37 @@ const handleUpdate2 = async (id) => {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="bg-white text-gray-900 paddingcstm rounded-2xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
                       <div className="text-sm font-semibold text-indigo-600">Total Income</div>
-                      <div className="mt-2 text-2xl font-extrabold text-gray-900">{user.totalIncome} USDT</div>
+                      <div className="mt-2 text-2xl font-extrabold text-gray-900">{tradingIncome+referralIncome+levelIncome} USDT</div>
                       <div className="text-xs text-gray-500 mt-1">All-time earnings</div>
                     </div>
 
                     <div className="bg-white text-gray-900 paddingcstm rounded-2xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
                       <div className="text-sm font-semibold text-blue-600">Wallet Fund</div>
-                      <div className="mt-2 text-2xl font-extrabold text-gray-900">{user.walletFund} USDT</div>
+                      <div className="mt-2 text-2xl font-extrabold text-gray-900">{usdBalance} USDT</div>
                       <div className="text-xs text-gray-500 mt-1">Available to withdraw</div>
                     </div>
 
                     <div className="bg-white text-gray-900 paddingcstm rounded-2xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
                       <div className="text-sm font-semibold text-pink-600">Team Members</div>
-                      <div className="mt-2 text-2xl font-extrabold text-gray-900">{teamCount}</div>
+                      <div className="mt-2 text-2xl font-extrabold text-gray-900">{downlines?.indirect?.length}</div>
                       <div className="text-xs text-gray-500 mt-1">Direct & indirect</div>
                     </div>
 
                     <div className="bg-white text-gray-900 paddingcstm rounded-2xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
                       <div className="text-sm font-semibold text-pink-600">Trading Income</div>
-                      <div className="mt-2 text-2xl font-extrabold text-gray-900">{tradingIncomeFormatted} $</div>
+                      <div className="mt-2 text-2xl font-extrabold text-gray-900">{tradingIncome} $</div>
                       <div className="text-xs text-gray-500 mt-1">Trading Income</div>
                     </div>
 
                     <div className="bg-white text-gray-900 paddingcstm rounded-2xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
                       <div className="text-sm font-semibold text-pink-600">Referral Income</div>
-                      <div className="mt-2 text-2xl font-extrabold text-gray-900">{referralIncomeFormatted} $</div>
+                      <div className="mt-2 text-2xl font-extrabold text-gray-900">{referralIncome} $</div>
                       <div className="text-xs text-gray-500 mt-1">Referral Income</div>
                     </div>
 
                     <div className="bg-white text-gray-900 paddingcstm rounded-2xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
                       <div className="text-sm font-semibold text-pink-600">Level Income</div>
-                      <div className="mt-2 text-2xl font-extrabold text-gray-900">{levelIncomeFormatted} $</div>
+                      <div className="mt-2 text-2xl font-extrabold text-gray-900">{levelIncome} $</div>
                       <div className="text-xs text-gray-500 mt-1">Level Income</div>
                     </div>
                   </div>
@@ -232,8 +300,8 @@ const handleUpdate2 = async (id) => {
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                       <div>
                         <div className="text-sm text-indigo-300">Active Package</div>
-                        <div className="text-2xl font-bold mt-1">Package #{currentPackage?.id ?? Package.id} — {packagePriceFormatted} ETH</div>
-                        <div className="text-xs text-slate-400 mt-1">Limit: {packageLimitFormatted} ETH • Team required: {currentPackage?.team ?? Package.team}</div>
+                        {/* <div className="text-2xl font-bold mt-1">Package #{currentPackage?.id ?? Package.id} — {packagePriceFormatted} ETH</div> */}
+                        {/* <div className="text-xs text-slate-400 mt-1">Limit: {packageLimitFormatted} ETH • Team required: {currentPackage?.team ?? Package.team}</div> */}
                       </div>
 
                       <div className="flex gap-3">
@@ -347,19 +415,25 @@ const handleUpdate2 = async (id) => {
                           <tr>
                             <th className="py-3 px-4">#</th>
                             <th className="py-3 px-4">Amount</th>
-                            <th className="py-3 px-4">Status</th>
+                            <th className="py-3 px-4">Hash</th>
+                            <th className="py-3 px-4">Type</th>
                             <th className="py-3 px-4">Time</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {incomeItems.map((it, i) => (
+                          {transactions && filteredTransactions.map((it, i) => (
                             <tr key={i} className={`${i % 2 === 0 ? "bg-white" : "bg-gray-50"} hover:bg-indigo-50 transition-all duration-200`}>
-                              <td className="py-3 px-4 text-gray-900 font-medium">{it.sr}</td>
-                              <td className="py-3 px-4 text-gray-900">{it.amount}</td>
+                              <td className="py-3 px-4 text-gray-900 font-medium">{i+1}</td>
+                              <td className="py-3 px-4 text-gray-900">{formatEther(it.values.amount)}</td>
                               <td className={`py-3 px-4 font-semibold ${it.status === "Completed" ? "text-green-600" : "text-yellow-600"}`}>
-                                {it.status}
+                                {`${it.hash.slice(0,4)}...${it.hash.slice(-4)}`}
                               </td>
-                              <td className="py-3 px-4 text-gray-600">{it.time}</td>
+                              <td className="py-3 px-4 text-gray-900">{incomeKeys[Number(it.values._type)-1]}</td>
+                              <td className="py-3 px-4 text-gray-600">{
+                                `${new Date(it.values.time*1000).getDate()}-
+                                ${new Date(it.values.time*1000).getMonth()}-
+                                ${new Date(it.values.time*1000).getFullYear()}`
+                                }</td>
                             </tr>
                           ))}
                         </tbody>
@@ -382,19 +456,19 @@ const handleUpdate2 = async (id) => {
 
                   <div className="bg-white text-gray-900 p-4 rounded-2xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
                     <div className="text-sm font-semibold text-indigo-600">Referred By</div>
-                    <div className="mt-2 text-xl font-extrabold text-gray-900">#{user.referredBy}</div>
-                    <div className="text-xs text-gray-500 mt-1">Joined on 2025-09-15</div>
+                    <div className="mt-2 text-xl font-extrabold text-gray-900">#{`${downlines?.referrer?.slice(0,4)}...${downlines?.referrer?.slice(-4)}`}</div>
+                    <div className="text-xs text-gray-500 mt-1">{purchaseTime}</div>
                   </div>
 
                   <div className="bg-white text-gray-900 p-4 rounded-2xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div className="text-sm font-semibold text-indigo-600 mb-3">Community Preview</div>
+                    {/* <div className="text-sm font-semibold text-indigo-600 mb-3">Community Preview</div>
                     <div className="flex flex-col gap-2 text-sm text-gray-700">
                       <div>Root: <span className="font-semibold text-gray-900">#{communityTree.root}</span></div>
                       <div>Left: <span className="font-semibold text-gray-900">#{communityTree.left.id}</span> ({communityTree.left.children.length})</div>
                       <div>Right: <span className="font-semibold text-gray-900">#{communityTree.right.id}</span> ({communityTree.right.children.length})</div>
-                    </div>
+                    </div> */}
 
-                    <button onClick={() => setActive("community")} className="mt-4 w-full py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-all duration-300">Open Tree</button>
+                    <button onClick={() => navigate("/tree")} className="mt-4 w-full py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-semibold transition-all duration-300">Open Tree</button>
                   </div>
 
 
