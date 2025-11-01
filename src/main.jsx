@@ -16,17 +16,12 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AppKitProvider>
       <Provider store={store}>
-        <Router>
-          <Routes>
-            <Route path="/" element={<App />} />
-            <Route path="/contract" element={<ContractPage />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/tree" element={<Tree2 />} />
-           
-             <Route path="/dashboard" element={<Dashboard />} /> 
-          </Routes>
-        </Router>
-      </Provider>
+
+                    <Router>
+       <App/>
+
+                    </Router>
+       </Provider>
     </AppKitProvider>
   </StrictMode>
 )

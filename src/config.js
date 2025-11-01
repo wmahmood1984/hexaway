@@ -14,6 +14,27 @@ export const web3 = new Web3(
 export const url = "https://testnet.bscscan.com/tx/"
 
 export const incomeKeys=["referralIncome","tradingIncome","levelIncome"]
+export const packageKeys=["Welcome","DI","TRI","TETRA","PENTA","HEXA"]
+export const packageColors=[
+	{div:"w-full bg-blue-600 text-white py-2 sm:py-3 rounded-lg hover:bg-blue-700 text-sm sm:text-base transition-colors font-medium"
+		,h4:"font-bold text-base sm:text-xl text-blue-800 mb-2",
+		button:"w-full bg-blue-600 text-white py-2 sm:py-3 rounded-lg hover:bg-blue-700 text-sm sm:text-base transition-colors font-medium"
+	},
+	{div:"package-card bg-gradient-to-br from-green-50 to-green-100 p-4 sm:p-6 rounded-xl text-center border-2 border-transparent hover:border-green-300 transition-all"
+		,h4:"font-bold text-base sm:text-xl text-green-800 mb-2",button:"w-full bg-green-600 text-white py-2 sm:py-3 rounded-lg hover:bg-green-700 text-sm sm:text-base transition-colors font-medium"
+	},	
+	{div:"package-card bg-gradient-to-br from-purple-50 to-purple-100 p-4 sm:p-6 rounded-xl text-center border-2 border-transparent hover:border-purple-300 transition-all"
+		,h4:"font-bold text-base sm:text-xl text-purple-800 mb-2",button:"w-full bg-purple-600 text-white py-2 sm:py-3 rounded-lg hover:bg-purple-700 text-sm sm:text-base transition-colors font-medium"
+	},	{div:"package-card bg-gradient-to-br from-yellow-50 to-yellow-100 p-4 sm:p-6 rounded-xl text-center border-2 border-transparent hover:border-yellow-300 transition-all"
+		,h4:"font-bold text-base sm:text-xl text-yellow-800 mb-2",button:"w-full bg-yellow-600 text-white py-2 sm:py-3 rounded-lg hover:bg-yellow-700 text-sm sm:text-base transition-colors font-medium"
+	},	{div:	"package-card bg-gradient-to-br from-red-50 to-red-100 p-4 sm:p-6 rounded-xl text-center border-2 border-transparent hover:border-red-300 transition-all"
+		,h4:"font-bold text-base sm:text-xl text-red-800 mb-2",button:"w-full bg-red-600 text-white py-2 sm:py-3 rounded-lg hover:bg-red-700 text-sm sm:text-base transition-colors font-medium"
+	},	{div:"package-card bg-gradient-to-br from-indigo-50 to-indigo-100 p-4 sm:p-6 rounded-xl text-center border-2 border-transparent hover:border-indigo-300 transition-all"
+		,h4:"font-bold text-base sm:text-xl text-indigo-800 mb-2",button:"w-full bg-indigo-600 text-white py-2 sm:py-3 rounded-lg hover:bg-indigo-700 text-sm sm:text-base transition-colors font-medium"
+	}
+	
+
+	]
 
 export const mlmabi = [
 	{
@@ -1999,9 +2020,9 @@ export const helperAbi = [
 	}
 ]
 
-export const helperAddress = "0xD85D3AfA3c840ed19B16232D208f150c4e78D256"
+export const helperAddress = "0xd68E1537BC70F30fB42D3C811A437367354a540a"
 
-export const mlmcontractaddress = "0x2EA4492dF0F23b2717Ea4ec0B273C476242806e7";
+export const mlmcontractaddress = "0x15A2AB15DeF1D405627f6bd68f5CD2eA99f175C2";
 
 export const mlmcontractaddressImplementation =
   "0xB9605fAe41F3D602e576a5Fa30dfCa810A35B76E";

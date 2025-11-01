@@ -1,0 +1,122 @@
+import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
+import { executeContract } from "../utils/contractExecutor";
+import { useConfig } from "wagmi";
+import { useEffect, useState } from "react";
+import { helperAbi, helperAddress, mlmcontractaddress, usdtContract, web3 } from "../config";
+import { useDispatch } from "react-redux";
+import { readName } from "../slices/contractSlice";
+import { useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
+
+export default function ConnectButton({ referrer }) {
+    const { open } = useAppKit()
+    const navigate = useNavigate()
+    // const { disconnect } = useDisconnect()
+    const config = useConfig()
+    const { isConnected, } = useAppKitAccount()
+    const [admin, setAdmin] = useState()
+    const [packages, setPackages] = useState([])
+    const dispatch = useDispatch()
+    const [loading, setLoading] = useState(false);
+
+    const contract = new web3.eth.Contract(helperAbi, helperAddress)
+
+    useEffect(() => {
+
+        const abc = async () => {
+
+            const _admin = await contract.methods.owner().call()
+            setAdmin(_admin)
+            const _packages = await contract.methods.getPackages().call()
+            setPackages(_packages)
+        }
+
+        abc()
+    }, [])
+
+
+    const handleRegister2 = async () => {
+        await executeContract({
+            config,
+            functionName: "register",
+            args: [referrer ? referrer : admin],
+            onSuccess: (txHash, receipt) => {
+                console.log("🎉 Tx Hash:", txHash);
+                console.log("🚀 Tx Receipt:", receipt);
+                dispatch(readName({ address: receipt.from }));
+                navigate("/")
+                setLoading(false)
+            },
+            onError: (err) => {
+                console.error("Registration failed:", err);
+                setLoading(false)
+            },
+        });
+    };
+
+
+
+
+
+
+    const handleRegister = async (e) => {
+        e.preventDefault(); // stop form submission
+        setLoading(true)
+        // if (allowance >= packages[0].price) {
+        //     handleRegister2()
+        // } else {
+
+        await executeContract({
+            config,
+            functionName: "approve",
+            args: [mlmcontractaddress, packages[0].price],
+            onSuccess: () => handleRegister2(),
+            onError: (err) => {
+
+                alert("Transaction failed", err)
+                setLoading(false)
+            },
+            contract: usdtContract
+        });
+    }
+
+
+
+
+    return (
+        <div>
+            {<button
+
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-6 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] text-base"
+                onClick={async (e) => {
+                    if (isConnected) {
+                        handleRegister(e);
+                    } else {
+                        await open()
+                    }
+                }}
+                // style={{
+                //     border: "2px solid blue",
+                //     padding: "10px 20px",
+                //     backgroundColor: "transparent",
+                //     cursor: "pointer",
+                //     transition: "border-color 0.3s"
+                // }}
+                onMouseOver={(e) => {
+                    e.currentTarget.style.borderColor = "green";
+                }}
+                onMouseOut={(e) => {
+                    e.currentTarget.style.borderColor = "blue";
+                }}
+            >
+                {loading ? (
+                    <>
+                        <Spinner size={20} color="#fff" />
+                        <span>Processing...</span>
+                    </>
+                ) : isConnected ? `Register` : "🔗 Connect Wallet"}
+            </button>}
+
+        </div>
+    )
+}

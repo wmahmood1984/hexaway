@@ -65,6 +65,7 @@ export const readName = createAsyncThunk(
       let levelIncome = 0
       let referralIncome = 0
       let tradingIncome = 0
+      let walletBalance = 0
 
       if (a.address && registered) {
         Package = await safeCall("userPackage", () => contract.methods.userPackage(a.address).call());
@@ -78,6 +79,7 @@ export const readName = createAsyncThunk(
         levelIncome = await safeCall("levelIncome", () => contract.methods.userLevelIncome(a.address).call());
         referralIncome = await safeCall("referralIncome", () => contract.methods.userReferralIncome(a.address).call());
         tradingIncome = await safeCall("tradingIncome", () => contract.methods.userTradingIncome(a.address).call());
+        walletBalance = await safeCall("walletbalance", () => uContract.methods.balanceOf(a.address).call());
 
       }
 
@@ -98,13 +100,14 @@ export const readName = createAsyncThunk(
         directReferrals,
         limitUtilized,
         NFTque,
-        NFTQueBalance,
+        NFTQueBalance:Number(formatEther(NFTQueBalance)).toFixed(4),
         myNFTs,
         NFTMayBeCreated,
         nextTokenId,
         levelIncome:Number(formatEther(levelIncome)).toFixed(4),
         referralIncome:Number(formatEther(referralIncome)).toFixed(4),
         tradingIncome:Number(formatEther(tradingIncome)).toFixed(4),
+        walletBalance:Number(formatEther(walletBalance)).toFixed(4)
 
 
         //      nftused,
@@ -140,6 +143,7 @@ const contractSlice = createSlice({
            levelIncome:0,
         referralIncome:0,
         tradingIncome:0,
+        walletBalance:0,
     //nftused: null,
     status: "idle",
     error: null,

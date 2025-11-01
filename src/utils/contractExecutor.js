@@ -32,3 +32,15 @@ export async function executeContract({
   }
 }
 
+export function formatAddress(add) {
+  return add ? `${add.slice(0,4)}...${add.slice(-4)}`: `...`
+}
+
+export function formatWithCommas(value) {
+  if (value === null || value === undefined || value === "") return "";
+  
+  const num = Number(value);
+  if (isNaN(num)) return value; // return original if not a valid number
+
+  return num.toLocaleString("en-US");
+}
