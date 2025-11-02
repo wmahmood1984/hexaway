@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { helperAbi, helperAddress, incomeKeys, mlmabi, mlmcontractaddress, tradeKeys, url, web3, web31 } from '../config';
+import { helperAbi, helperAddress, incomeKeys, mlmabi, mlmcontractaddress, packageKeys, tradeKeys, url, web3, web31 } from '../config';
 import { useAppKitAccount } from '@reown/appkit/react';
 import { formatEther } from 'ethers';
 import { formatDate } from '../utils/contractExecutor';
@@ -9,6 +9,7 @@ export default function History() {
     const { address } = useAppKitAccount();
     const [transactions, setTransaction] = useState()
     const [trades, setTrades] = useState()
+    const [Upgrades, setUpgrades] = useState()
     const [filter, setFilter] = useState("All Transactions")
 
     const helperContract = new web31.eth.Contract(helperAbi, helperAddress)
@@ -76,6 +77,39 @@ export default function History() {
             console.log("All trandes:", allEvents);
         };
 
+        const bringPackages = async () => {
+            if (!address) return;
+
+
+            const latestBlock = await web3.eth.getBlockNumber();
+            const fromBlock = latestBlock - 50000;
+            const step = 5000; // or smaller if node still complains
+            let allEvents = [];
+
+            for (let i = fromBlock; i <= latestBlock; i += step) {
+                const toBlock = Math.min(i + step - 1, latestBlock);
+
+                try {
+                    const events = await helperContract.getPastEvents("Upgrades",
+
+                        {
+
+                            fromBlock: i,
+                            toBlock: toBlock,
+                        });
+                    allEvents = allEvents.concat(events);
+                    setUpgrades(allEvents)
+                    // console.log(`Fetched ${events.length} events from ${i} to ${toBlock}`);
+                } catch (error) {
+                    console.warn(`Error fetching from ${i} to ${toBlock}`, error);
+                }
+            }
+
+            console.log("All Upgrades:", allEvents);
+        };
+
+        bringPackages();
+
         bringTransaction();
         bringTrades()
     }, [address]);
@@ -121,12 +155,29 @@ export default function History() {
         })
 
 
+    const filteredUpgrades = Upgrades && Upgrades.filter(e => e.
+        returnValues.
+        _user === address).map((v, e) => {
+            return ({
+                eventType: "Upgrades",
+                time: Number(v.returnValues.time),
+                amount: formatEther(v.returnValues.amount),
+                details: `Package upgraded to ${packageKeys[v.returnValues._type].name}`,
+                svg: packageKeys[v.returnValues._type].svg,
+                class: packageKeys[v.returnValues._type].class,
+                name: `Package upgrade`,
+                hash: v.transactionHash,
+                values: v.returnValues
+            })
+        })
 
 
 
 
 
-    const merged = transactions && trades && [...filteredTransactions, ...filteredTrades].sort(
+
+
+    const merged = transactions && trades && Upgrades && [...filteredTransactions, ...filteredTrades,...filteredUpgrades].sort(
         (a, b) => b.time - a.time
     ).filter((e) => {
         console.log("filter", filter);
@@ -141,7 +192,7 @@ export default function History() {
 
 
 
-    const isLoading = !transactions || !trades;
+    const isLoading = !transactions || !trades || !Upgrades;
 
     if (isLoading) {
         // show a waiting/loading screen
@@ -179,12 +230,14 @@ export default function History() {
                                 <option value="NFT Creation">NFT Creation</option>
                                 <option value="Package Level Bonus">Package Level Bonus</option>
                                 <option value="Self Trading Profit">Self Trading Profit</option>
+                                <option value="Package upgrade">Package upgrade</option>
+                                
                                 <option value="Trading Level Bonus">Trading Level Bonus</option>  </select>
                         </div>
                     </div>
                     <div id="transaction-list" class="space-y-4">
                         {merged.map((v, e) => {
-                                console.log("check",v.eventType== "Trade", v.values._type=="1");
+                                // console.log("check",v.eventType== "Trade", v.values._type=="1");
                             return (
                                 <div class="transaction-card bg-white rounded-xl shadow-lg p-6 border border-gray-100" data-type="nft-trade">
                                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">

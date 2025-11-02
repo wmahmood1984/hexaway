@@ -99,6 +99,8 @@ export default function Dashboard() {
 
     const isLoading = !Package || !downlines || !packages;
 
+    console.log("dashoard",packageKeys[Package.id].name);
+
     if (isLoading) {
         // show a waiting/loading screen
         return (
@@ -154,7 +156,7 @@ export default function Dashboard() {
                                             Active Package
                                         </div>
                                         <div class="text-sm sm:text-base lg:text-lg font-semibold text-gray-900" id="active-package">
-                                            {packageKeys[Package.id]}
+                                            {packageKeys[Package.id].name}
                                         </div>
                                     </div>
                                 </div>

@@ -50,7 +50,7 @@ export default function User({address1}) {
                                         {formatAddress(address1)}
                                     </div>
                                     <div class="text-sm text-gray-600">
-                                        Package: {packageKeys[Package.id]}
+                                        Package: {packageKeys[Package.id].name}
                                     </div>
                                     <div class="text-sm text-green-600 font-medium">
                                         Active
