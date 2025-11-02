@@ -81,7 +81,7 @@ console.log("nav",nft,nft.id);
                             Live Price
                         </div>
                         <div class="font-bold text-indigo-600 text-sm sm:text-base">
-                            {(Number(formatEther(nft.price))+Number(formatEther(nft.premium)))*1.07} $
+                            {(Number(formatEther(nft.price))*1.07).toFixed(4)} $
                         </div>
                     </div>
                     <div class="text-right">
@@ -89,7 +89,7 @@ console.log("nav",nft,nft.id);
                             Last Sale
                         </div>
                         <div class="font-bold text-gray-900 text-sm sm:text-base">
-                            {Number(formatEther(nft.price))+Number(formatEther(nft.premium))} $
+                            {Number(formatEther(nft.price))} $
                         </div>
                     </div>
                 </div>
