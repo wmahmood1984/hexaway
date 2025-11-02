@@ -24,30 +24,30 @@ export default function App() {
         status,
       } = useSelector((state) => state.contract);
 
-  useEffect(() => {
-    dispatch(init()).then(() => {
-      if (address) {
-        dispatch(readName({ address }));
-      } else {
-        // dispatch(readName({ address: "0x0000000000000000000000000000000000000000" }));
-        navigate("/")
-      }
-    });
-  }, [dispatch, address]);
+//   useEffect(() => {
+//     dispatch(init()).then(() => {
+//       if (address) {
+//         dispatch(readName({ address }));
+//       } else {
+//         // dispatch(readName({ address: "0x0000000000000000000000000000000000000000" }));
+//         navigate("/")
+//       }
+//     });
+//   }, [dispatch, address]);
 
 
 
 
-  if (status!="succeeded") {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 text-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent mb-4"></div>
-        <p className="text-gray-600 text-lg font-medium">Loading your data...</p>
-      </div>
-    );
-  }
+//   if (status!="succeeded") {
+//     return (
+//       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 text-center">
+//         <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent mb-4"></div>
+//         <p className="text-gray-600 text-lg font-medium">Loading your data...</p>
+//       </div>
+//     );
+//   }
 
-  console.log("selector",status);
+//   console.log("selector",status);
     return (
         <div>
              <Toaster position="top-right" reverseOrder={false} />
