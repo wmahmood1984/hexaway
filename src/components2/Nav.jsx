@@ -32,6 +32,7 @@ export default function Nav() {
   const handleClick = async () => {
     if (isConnected) {
       await disconnect();
+      navigate("/")
     } else {
       navigate("/auth");
     }
