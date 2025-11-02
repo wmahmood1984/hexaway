@@ -44,27 +44,33 @@ export const NFT = ({ nft }) => {
         );
     }
 
-
+console.log("nav",nft,nft.id);
 
     return (
 
         <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 group">
             <div class="relative">
                 <div class="aspect-square bg-gradient-to-br from-purple-900 via-blue-900 to-cyan-900 relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    {/* <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div> */}
+                    {/* <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"> */}
                         <img
                             src={image}
                             alt={name}
                             className="h-full w-full object-cover"
-                        />                    </div>
-                    <div class="absolute top-2 sm:top-3 right-2 sm:right-3"><span class="bg-green-500 text-white text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full font-medium">Listed</span>
-                    </div>
+                        />                   
+                         {/* </div> */}
+                    {/* <div class="absolute top-2 sm:top-3 right-2 sm:right-3"><span class="bg-green-500 text-white text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full font-medium">Listed</span>
+                    </div> */}
                 </div>
-                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                    <div class="flex space-x-1 sm:space-x-2"><button class="bg-white/90 backdrop-blur-sm text-gray-900 px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 rounded-lg font-medium hover:bg-white transition-colors text-xs sm:text-sm"> View </button> <button class="bg-indigo-600/90 backdrop-blur-sm text-white px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 rounded-lg font-medium hover:bg-indigo-700 transition-colors text-xs sm:text-sm"> Edit </button>
+                {/* <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                    <div class="flex space-x-1 sm:space-x-2">
+                        <button 
+                        class="bg-white/90 backdrop-blur-sm text-gray-900 px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 rounded-lg font-medium hover:bg-white transition-colors text-xs sm:text-sm"> 
+                        View </button> 
+                        <button class="bg-indigo-600/90 backdrop-blur-sm text-white px-2 sm:px-3 lg:px-4 py-1 sm:py-1.5 lg:py-2 rounded-lg font-medium hover:bg-indigo-700 transition-colors text-xs sm:text-sm"> 
+                        Edit </button>
                     </div>
-                </div>
+                </div> */}
             </div>
             <div class="p-3 sm:p-4">
                 <h3 class="font-bold text-gray-900 mb-1 text-sm sm:text-base">{name} #{nft.id}</h3>
@@ -72,10 +78,10 @@ export const NFT = ({ nft }) => {
                 <div class="flex items-center justify-between">
                     <div>
                         <div class="text-xs text-gray-500">
-                            Listed Price
+                            Live Price
                         </div>
                         <div class="font-bold text-indigo-600 text-sm sm:text-base">
-                            {Number(formatEther(nft.price))+Number(formatEther(nft.premium))} $
+                            {(Number(formatEther(nft.price))+Number(formatEther(nft.premium)))*1.07} $
                         </div>
                     </div>
                     <div class="text-right">
