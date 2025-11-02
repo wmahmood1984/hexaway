@@ -327,6 +327,33 @@ export default function Dashboard() {
                                         ${tradingIncome}
                                     </div>
                                 </div>
+                                <div class="bg-white/95 backdrop-blur-sm border border-white/20 rounded-2xl shadow-xl p-4 sm:p-6 text-center">
+                                    <div class="text-2xl sm:text-3xl mb-2">
+                                        📈
+                                    </div>
+                                    <h4 class="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Self Trading Profit</h4>
+                                    <div id="referral-income" class="text-xl sm:text-2xl font-bold text-purple-600">
+                                        ${tradingIncome}
+                                    </div>
+                                </div>
+                                <div class="bg-white/95 backdrop-blur-sm border border-white/20 rounded-2xl shadow-xl p-4 sm:p-6 text-center">
+                                    <div class="text-2xl sm:text-3xl mb-2">
+                                        📈
+                                    </div>
+                                    <h4 class="font-semibold text-gray-900 mb-2 text-sm sm:text-base">NFT Creation Earning</h4>
+                                    <div id="referral-income" class="text-xl sm:text-2xl font-bold text-purple-600">
+                                        ${tradingIncome}
+                                    </div>
+                                </div>
+                                <div class="bg-white/95 backdrop-blur-sm border border-white/20 rounded-2xl shadow-xl p-4 sm:p-6 text-center">
+                                    <div class="text-2xl sm:text-3xl mb-2">
+                                        📈
+                                    </div>
+                                    <h4 class="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Total Earnings</h4>
+                                    <div id="referral-income" class="text-xl sm:text-2xl font-bold text-purple-600">
+                                        ${tradingIncome}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         {/* <div class="bg-white/95 backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 mb-6 sm:mb-8">
