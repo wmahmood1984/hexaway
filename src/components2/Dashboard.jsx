@@ -9,6 +9,7 @@ import { init, readName } from '../slices/contractSlice';
 import { mlmcontractaddress, packageKeys, usdtContract } from '../config';
 import CountdownTimer from './Timer';
 import Spinner from './Spinner';
+import HexawayPackages from './HexawayPackages';
 
 export default function Dashboard() {
 
@@ -176,7 +177,7 @@ export default function Dashboard() {
                             {
                                 <CountdownTimer durationInSeconds={Number(Package.purchaseTime) + 60 * 60 * 24 * 30 - now / 1000} />
                             }
-                            <div class="bg-white/95 backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
+                            {/* <div class="bg-white/95 backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
                                 <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Hexaway Packages</h3>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6">
                                     <div class="package-card bg-gradient-to-br from-blue-50 to-blue-100 p-4 sm:p-6 rounded-xl text-center border-2 border-transparent hover:border-blue-300 transition-all">
@@ -301,11 +302,24 @@ export default function Dashboard() {
                                         </button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
+
+                            <HexawayPackages
+                            packages={packages} 
+                            Package={Package} 
+                            downlines={downlines}
+                             handleUpdate={handleUpdate}
+                            loading={loading}
+                            
+                            />
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
                                 <div class="bg-white/95 backdrop-blur-sm border border-white/20 rounded-2xl shadow-xl p-4 sm:p-6 text-center">
-                                    <div class="text-2xl sm:text-3xl mb-2">
-                                        🤝
+                                                                        <div class="flex justify-center mb-2">
+                                        <img
+                                            src="tradingprofit.png"
+                                            alt="Self Trading"
+                                            class="w-8 sm:w-10"
+                                        />
                                     </div>
                                     <h4 class="font-semibold text-gray-900 mb-2 text-sm sm:text-base">Trading Referral Bonus</h4>
                                     <div id="group-trading-bonus" class="text-xl sm:text-2xl font-bold text-green-600">
