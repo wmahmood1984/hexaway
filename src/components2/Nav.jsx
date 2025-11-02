@@ -43,7 +43,7 @@ export default function Nav() {
         }
     }
 
-    console.log("nav", NFTMayBeCreated);
+
 
 
     return (

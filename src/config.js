@@ -15,17 +15,29 @@ export const url = "https://testnet.bscscan.com/tx/"
 
 export const incomeKeys = [
 	{
-		name: "Referral Bonus",
+		name: "Trading Referral Bonus",
 		class: "w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center",
 		svg: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
 	},
 	{
-		name: "Trading Income",
+		name: "Package Referral Bonus",
 		class: "w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center",
 		svg: "w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center"
 	},
 	{
-		name: "Level Bonus",
+		name: "Trading Level Bonus",
+
+		class: "w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg flex items-center justify-center",
+		svg: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+	},
+		{
+		name: "Package Level Bonus",
+
+		class: "w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg flex items-center justify-center",
+		svg: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+	},
+		{
+		name: "Self Trading Profit",
 
 		class: "w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg flex items-center justify-center",
 		svg: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
@@ -1073,6 +1085,12 @@ export const helperAbi = [
 				"internalType": "uint256",
 				"name": "level",
 				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
 			}
 		],
 		"name": "Incomes",
@@ -1240,42 +1258,10 @@ export const helperAbi = [
 				"type": "address"
 			},
 			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "id",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "price",
-						"type": "uint256"
-					},
-					{
-						"internalType": "address",
-						"name": "_owner",
-						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "uri",
-						"type": "string"
-					},
-					{
-						"internalType": "uint256",
-						"name": "premium",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "utilized",
-						"type": "uint256"
-					}
-				],
 				"indexed": false,
-				"internalType": "struct Helper.NFT",
-				"name": "nft",
-				"type": "tuple"
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
 			}
 		],
 		"name": "Trades",
@@ -2139,9 +2125,9 @@ export const helperAbi = [
 	}
 ]
 
-export const helperAddress = "0x809871FEfedd5a6dC6161942Ae7e7643D4eD9819"
+export const helperAddress = "0xAf583A5fc6BB291d1bedbd83614d4f9BE6EACBeA"
 
-export const mlmcontractaddress = "0x6178D84c6685Eb1Bdd4ff3Ee482b0e36b573aAA9";
+export const mlmcontractaddress = "0xd6EaEdfcF37369625834C4e06F74Fdb21150702e";
 
 export const mlmcontractaddressImplementation =
 	"0xB9605fAe41F3D602e576a5Fa30dfCa810A35B76E";

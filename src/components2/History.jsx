@@ -9,7 +9,7 @@ export default function History() {
     const { address } = useAppKitAccount();
     const [transactions, setTransaction] = useState()
     const [trades, setTrades] = useState()
-        const [filter, setFilter] = useState("All Transactions")
+    const [filter, setFilter] = useState("All Transactions")
 
     const helperContract = new web31.eth.Contract(helperAbi, helperAddress)
 
@@ -90,7 +90,10 @@ export default function History() {
                     eventType: "Income",
                     time: Number(v.returnValues.time),
                     amount: formatEther(v.returnValues.amount),
-                    details: v.returnValues._type == '2' ? `Level ${v.returnValues.level} Commission` : `Package Upgrade Bonus / Trading bonus`,
+                    details: v.returnValues._type == '3' ? `Level ${v.returnValues.level} Commission` : 
+                        v.returnValues._type == '2'? `Level ${v.returnValues.level} Commission for Toke id# ${v.returnValues.id}`
+                         :v.returnValues._type == '4'? `Self Trading profit for Token id# ${v.returnValues.id}`
+                        :`Package Upgrade Bonus`,
                     svg: incomeKeys[v.returnValues._type].svg,
                     class: incomeKeys[v.returnValues._type].class,
 
@@ -107,7 +110,7 @@ export default function History() {
                 eventType: "Trade",
                 time: Number(v.returnValues.time),
                 amount: formatEther(v.returnValues.amount),
-                details: `Token ID : ${v.returnValues.nft.id}`,
+                details: `Token ID : ${v.returnValues.id}`,
                 svg: tradeKeys[v.returnValues._type].svg,
                 class: tradeKeys[v.returnValues._type].class,
                 name: tradeKeys[v.returnValues._type].name,
@@ -124,17 +127,17 @@ export default function History() {
 
     const merged = transactions && trades && [...filteredTransactions, ...filteredTrades].sort(
         (a, b) => b.time - a.time
-    ).filter((e)=>{
-        console.log("filter",filter);
-        if(filter==`All Transactions`){
+    ).filter((e) => {
+        console.log("filter", filter);
+        if (filter == `All Transactions`) {
             return true
-        }else{
-            return e.name==filter
+        } else {
+            return e.name == filter
         }
     })
-    ;
+        ;
 
-    
+
 
 
     const isLoading = !transactions || !trades;
@@ -149,7 +152,7 @@ export default function History() {
         );
     }
 
-    console.log("NFT",merged);
+    console.log("NFT", merged);
 
     return (
         <div>
@@ -164,16 +167,18 @@ export default function History() {
                         </div>
                         <div class="mt-4 sm:mt-0">
                             <select id="transaction-filter"
-                             onChange={(e)=>{setFilter(e.target.value)}} 
-                             class="px-4 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                             <option value="All Transactions">All Transactions</option>
-                              <option value="NFT Trade">NFT Trade</option>
-                               <option value="Referral Bonus">Referral Bonus</option> 
-                               <option value="Level Bonus">Level Bonus</option>
-                       
-                                 <option value="NFT Purchase">NFT Purchase</option>
-                                  <option value="NFT Creation">NFT Creation</option> 
-                                   <option value="Team Trading Bonus">Team Trading Bonus</option>  </select>
+                                onChange={(e) => { setFilter(e.target.value) }}
+                                class="px-4 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="All Transactions">All Transactions</option>
+                                <option value="NFT Trade">NFT Trade</option>
+                                <option value="Trading Referral Bonus">Trading Referral Bonus</option>
+                                <option value="Package Referral Bonus">Package Referral Bonus</option>
+
+                                <option value="NFT Purchase">NFT Purchase</option>
+                                <option value="NFT Creation">NFT Creation</option>
+                                <option value="Package Level Bonus">Package Level Bonus</option>
+                                <option value="Self Trading Profit">Self Trading Profit</option>
+                                <option value="Trading Level Bonus">Trading Level Bonus</option>  </select>
                         </div>
                     </div>
                     <div id="transaction-list" class="space-y-4">

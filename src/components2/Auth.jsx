@@ -1,42 +1,40 @@
 import { useAppKitAccount } from '@reown/appkit/react'
-import React, {  useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ConnectButton from './ConnectButton';
-import {  useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { init, readName } from '../slices/contractSlice';
 
 
 export default function Auth() {
-const {id} = useParams()
-const navigate = useNavigate()
+    const { id } = useParams()
+    const navigate = useNavigate()
 
-const [referrer, setReferrer] = useState(id)
+    const [referrer, setReferrer] = useState(id)
 
-    const { Package, myNFTs, packages, downlines, registered, admin, allowance, NFTQueBalance, limitUtilized, NFTque
-
-        , levelIncome,
-        referralIncome,
-        tradingIncome, walletBalance,
-        status, error
-    } = useSelector((state) => state.contract);
+    const { registered } = useSelector((state) => state.contract);
 
     const dispatch = useDispatch()
 
-       const { address } = useAppKitAccount()
+    const { address } = useAppKitAccount()
 
 
-           useEffect(() => {
-               dispatch(init()).then(() => {
-                   if (address) {
-                       dispatch(readName({ address }));
-                   }
-               });
+    useEffect(() => {
+        dispatch(init()).then(() => {
+            if (address) {
+                dispatch(readName({ address }));
+            }
+        });
+    }, [address, dispatch]);
 
-               if(registered){
-                navigate("/")
-               }
-           }, [dispatch, address]);
-    
+    useEffect(() => {
+        if (registered) {
+            navigate("/");
+        }
+    }, [registered, navigate]);
+
+    console.log("nav", registered);
+
     return (
         <div>
 
@@ -91,37 +89,37 @@ const [referrer, setReferrer] = useState(id)
                                 </div>
                                 <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
 
-                                        <div class="space-y-6">
-                                            <div>
-                                                <label for="walletAddress" class="block text-sm font-semibold text-gray-700 mb-3">Wallet Address</label> 
-                                                <input 
+                                    <div class="space-y-6">
+                                        <div>
+                                            <label for="walletAddress" class="block text-sm font-semibold text-gray-700 mb-3">Wallet Address</label>
+                                            <input
                                                 value={address}
                                                 disabled
                                                 type="text" id="walletAddress" name="walletAddress" placeholder="0x..." class="w-full px-4 py-4 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 placeholder-gray-500 text-base transition-all" required />
-                                            </div>
-                                            <div>
-                                                <label for="referredBy" class="block text-sm font-semibold text-gray-700 mb-3">Referred By (Optional)</label> 
-                                                <input 
-                                                value={referrer}
-                                                onChange={(e)=>{setReferrer(e.target.value)}}
-                                                type="text" id="referredBy" name="referredBy" placeholder="Enter referrer's wallet address" class="w-full px-4 py-4 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 placeholder-gray-500 text-base transition-all" />
-                                            </div>
                                         </div>
-                                        <div class="mt-8 space-y-4">
-                                            {/* <button type="button" 
+                                        <div>
+                                            <label for="referredBy" class="block text-sm font-semibold text-gray-700 mb-3">Referred By (Optional)</label>
+                                            <input
+                                                value={referrer}
+                                                onChange={(e) => { setReferrer(e.target.value) }}
+                                                type="text" id="referredBy" name="referredBy" placeholder="Enter referrer's wallet address" class="w-full px-4 py-4 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 placeholder-gray-500 text-base transition-all" />
+                                        </div>
+                                    </div>
+                                    <div class="mt-8 space-y-4">
+                                        {/* <button type="button" 
                                             onclick="connectWallet()" 
                                             class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-6 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] text-base"> 
                                             🔗 Connect Wallet </button> */}
-                                            <ConnectButton referrer={referrer}/>
-                                            <div class="relative">
-                                                <div class="absolute inset-0 flex items-center">
-                                                    <div class="w-full border-t border-gray-300"></div>
-                                                </div>
-                                                {/* <div class="relative flex justify-center text-sm"><span class="px-4 bg-white text-gray-500 font-medium">or</span>
-                                                </div> */}
+                                        <ConnectButton referrer={referrer} />
+                                        <div class="relative">
+                                            <div class="absolute inset-0 flex items-center">
+                                                <div class="w-full border-t border-gray-300"></div>
                                             </div>
-                                            {/* <button type="submit" class="w-full bg-white text-gray-900 py-4 px-6 rounded-xl font-semibold hover:bg-gray-50 transition-colors border-2 border-gray-300 hover:border-gray-400 text-base"> 📝 Login with Address </button> */}
+                                            {/* <div class="relative flex justify-center text-sm"><span class="px-4 bg-white text-gray-500 font-medium">or</span>
+                                                </div> */}
                                         </div>
+                                        {/* <button type="submit" class="w-full bg-white text-gray-900 py-4 px-6 rounded-xl font-semibold hover:bg-gray-50 transition-colors border-2 border-gray-300 hover:border-gray-400 text-base"> 📝 Login with Address </button> */}
+                                    </div>
 
                                     <div class="mt-8 pt-6 border-t border-gray-200">
                                         <div class="text-center">
@@ -168,21 +166,21 @@ const [referrer, setReferrer] = useState(id)
                         <div class="flex-1 px-4 sm:px-6 pb-8">
                             <div class="bg-white/95 backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 max-w-md mx-auto">
 
-                                    <div class="space-y-5 sm:space-y-6">
-                                        <div><label for="mobileWalletAddress" class="block text-sm font-semibold text-gray-700 mb-2">Wallet Address</label> <input type="text" id="mobileWalletAddress" name="walletAddress" placeholder="0x..." class="w-full px-4 py-3 sm:py-4 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 placeholder-gray-500 text-base transition-all" required />
-                                        </div>
-                                        <div><label for="mobileReferredBy" class="block text-sm font-semibold text-gray-700 mb-2">Referred By (Optional)</label> <input type="text" id="mobileReferredBy" name="referredBy" placeholder="Enter referrer's wallet address" class="w-full px-4 py-3 sm:py-4 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 placeholder-gray-500 text-base transition-all" />
-                                        </div>
+                                <div class="space-y-5 sm:space-y-6">
+                                    <div><label for="mobileWalletAddress" class="block text-sm font-semibold text-gray-700 mb-2">Wallet Address</label> <input type="text" id="mobileWalletAddress" name="walletAddress" placeholder="0x..." class="w-full px-4 py-3 sm:py-4 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 placeholder-gray-500 text-base transition-all" required />
                                     </div>
-                                    <div class="mt-6 sm:mt-8 space-y-4"><button type="button"  class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-6 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform active:scale-95 text-base"> 🔗 Connect Wallet </button>
-                                        <div class="relative">
-                                            <div class="absolute inset-0 flex items-center">
-                                                <div class="w-full border-t border-gray-300"></div>
-                                            </div>
-                                            <div class="relative flex justify-center text-sm"><span class="px-4 bg-white text-gray-500 font-medium">or</span>
-                                            </div>
-                                        </div><button type="submit" class="w-full bg-white text-gray-900 py-4 px-6 rounded-xl font-semibold hover:bg-gray-50 transition-colors border-2 border-gray-300 hover:border-gray-400 text-base transform active:scale-95"> 📝 Login with Address </button>
+                                    <div><label for="mobileReferredBy" class="block text-sm font-semibold text-gray-700 mb-2">Referred By (Optional)</label> <input type="text" id="mobileReferredBy" name="referredBy" placeholder="Enter referrer's wallet address" class="w-full px-4 py-3 sm:py-4 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 placeholder-gray-500 text-base transition-all" />
                                     </div>
+                                </div>
+                                <div class="mt-6 sm:mt-8 space-y-4"><button type="button" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-6 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform active:scale-95 text-base"> 🔗 Connect Wallet </button>
+                                    <div class="relative">
+                                        <div class="absolute inset-0 flex items-center">
+                                            <div class="w-full border-t border-gray-300"></div>
+                                        </div>
+                                        <div class="relative flex justify-center text-sm"><span class="px-4 bg-white text-gray-500 font-medium">or</span>
+                                        </div>
+                                    </div><button type="submit" class="w-full bg-white text-gray-900 py-4 px-6 rounded-xl font-semibold hover:bg-gray-50 transition-colors border-2 border-gray-300 hover:border-gray-400 text-base transform active:scale-95"> 📝 Login with Address </button>
+                                </div>
 
                                 <div class="mt-6 sm:mt-8 pt-6 border-t border-gray-200">
                                     <div class="text-center">
