@@ -1,12 +1,17 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { init, readName } from '../slices/contractSlice';
 import { useAppKitAccount } from '@reown/appkit/react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
 
 const dispatch = useDispatch();
-  const { address } = useAppKitAccount();
+
+const { registered } = useSelector((state) => state.contract);  
+const navigate = useNavigate()
+
+const { address } = useAppKitAccount();
     useEffect(() => {
     dispatch(init()).then(() => {
       if (address) {
@@ -14,6 +19,15 @@ const dispatch = useDispatch();
       }
     });
   }, [dispatch, address]);
+
+  const handleClick = async ()=>{
+    if(registered){
+        navigate("/trade")
+    }else{
+        navigate("/auth")
+    }
+
+  }
 
     return (
         <div>            <div id="home-page" class="page">
@@ -24,7 +38,11 @@ const dispatch = useDispatch();
 
                 <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h2 id="hero-title" class="text-5xl md:text-7xl font-bold font-display bg-gradient-to-r from-gray-900 via-indigo-700 to-purple-700 bg-clip-text text-transparent mb-6 leading-tight">Discover, Trade &amp; Create NFTs</h2>
-                    <p id="hero-subtitle" class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">Join the future of digital art trading</p><button onclick="showPage('auth')" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-2xl hover:shadow-indigo-500/25 transform hover:scale-105">Start Trading Now</button>
+                    <p id="hero-subtitle" class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">Join the future of digital art trading</p>
+                    <button 
+                    onClick={handleClick} 
+                    
+                    class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-2xl hover:shadow-indigo-500/25 transform hover:scale-105">Start Trading Now</button>
                 </div>
             </section>
             <section class="py-20 overflow-hidden bg-gradient-to-br from-slate-50 to-gray-100">
