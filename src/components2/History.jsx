@@ -253,8 +253,8 @@ export default function History() {
                                             </div>
                                         </div>
                                         <div class="text-right">
-                                            {v.eventType== "Trade"
-                                            && v.values._type=="1"?
+                                            {(v.eventType== "Trade"
+                                            && v.values._type=="1") ||v.eventType== "Upgrades" ?
                                             <div class="text-2xl font-bold text-red-600">
                                                 -${v.amount}
                                             </div>:
