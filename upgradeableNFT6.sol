@@ -307,7 +307,7 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
         Package storage _package = userPackage[_user];
         require(
             (_package.limit - userLimitUtilized[_user]) >=
-                (_nft.price + _nft.premium),
+                (_nft.price + (_nft.price * 7) / 100),
             "7"
         );
 
@@ -466,9 +466,9 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
                 users[up].direct.length >= 2 // ((userPackage[up].id == 5 && // Package buy
                 //     userPackage[up].id != 5) &&
                 : //     userLimitUtilized[up] >= (userPackage[up].limit / 2)) ||
-                userPackage[up].levelUnlock - 1 >= i &&
-                    users[up].direct.length - 1 >=
-                        userPackage[up].directrequired;
+                userPackage[up].levelUnlock >= i+1 &&
+                    users[up].direct.length >=
+                        userPackage[up].directrequired+1;
             uint transactionType = _type == 1 ? 2 : 3;
             if (
                 cond &&
@@ -500,10 +500,12 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
             }
         }
 
-        paymentToken.transfer(
-            owner(),
-            (((_amount * 70) / 100) * (levelD - leftOver)) / levelD
-        );
+
+        uint validLeftOver = leftOver > levelD ? levelD : leftOver;
+       paymentToken.transfer(
+    owner(),
+    (((_amount * 70) / 100) * (levelD - validLeftOver)) / levelD
+);
     }
 
     function removeFirst() internal {
