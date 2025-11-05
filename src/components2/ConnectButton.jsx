@@ -63,29 +63,29 @@ export default function ConnectButton({ referrer }) {
 
 
     const handleRegister = async (e) => {
-        // e.preventDefault(); // stop form submission
-        // setLoading(true)
-        // // if (allowance >= packages[0].price) {
-        // //     handleRegister2()
-        // // } else {
+        e.preventDefault(); // stop form submission
+        setLoading(true)
+        // if (allowance >= packages[0].price) {
+        //     handleRegister2()
+        // } else {
 
-        // await executeContract({
-        //     config,
-        //     functionName: "approve",
-        //     args: [mlmcontractaddress, packages[0].price],
-        //     onSuccess: () => handleRegister2(),
-        //     onError: (err) => {
-        //         let reason = extractRevertReason(err)
-        //         toast.error("Transaction failed:", reason)
+        await executeContract({
+            config,
+            functionName: "approve",
+            args: [mlmcontractaddress, packages[0].price],
+            onSuccess: () => handleRegister2(),
+            onError: (err) => {
+                let reason = extractRevertReason(err)
+                toast.error("Transaction failed:", reason)
 
-        //         setLoading(false)
+                setLoading(false)
 
 
-        //     },
-        //     contract: usdtContract
-        // });
+            },
+            contract: usdtContract
+        });
 
-        handleRegister2()
+        // handleRegister2()
     }
 
 
