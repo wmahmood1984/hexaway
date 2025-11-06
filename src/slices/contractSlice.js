@@ -69,7 +69,8 @@ export const readName = createAsyncThunk(
       let selfTradingProfit = 0
       let walletBalance = 0
       let nftListed = []
-      let nftPurchaseTime=0
+      let nftPurchaseTime = 0
+      let incomeBlockTime = 0
 
 
       if (a.address && registered) {
@@ -89,6 +90,7 @@ export const readName = createAsyncThunk(
         walletBalance = await safeCall("walletbalance", () => uContract.methods.balanceOf(a.address).call());
         nftListed = await safeCall("nftlisted", () => contract.methods.getNFTListed(a.address).call());
         nftPurchaseTime = await safeCall("nftPurchaseTime", () => contract.methods.userTradingTime(a.address).call());
+        incomeBlockTime = await safeCall("userLevelIncomeBlockTime", () => contract.methods.userLevelIncomeBlockTime(a.address).call());
 
       }
 
@@ -107,7 +109,7 @@ export const readName = createAsyncThunk(
         admin,
         allowance,
         directReferrals,
-        
+
         limitUtilized: Number(formatEther(limitUtilized)).toFixed(4),
         NFTque,
         NFTQueBalance: Number(formatEther(NFTQueBalance)).toFixed(4),
@@ -127,8 +129,8 @@ export const readName = createAsyncThunk(
           Number(formatEther(tradingLevelBonus)) +
           Number(formatEther(packageLevelBonus)) +
           Number(formatEther(selfTradingProfit))
-        ).toFixed(4),nftListed,
-        nftPurchaseTime
+        ).toFixed(4), nftListed,
+        nftPurchaseTime,incomeBlockTime
 
 
         //      nftused,
@@ -159,7 +161,7 @@ const contractSlice = createSlice({
     NFTque: [],
     NFTQueBalance: 0,
     myNFTs: [],
-    nftListed:[],
+    nftListed: [],
     NFTMayBeCreated: false,
     nextTokenId: 0,
     tradingReferralBonus: 0,
@@ -169,7 +171,8 @@ const contractSlice = createSlice({
     selfTradingProfit: 0,
     walletBalance: 0,
     totalIncome: 0,
-    nftPurchaseTime:0,
+    nftPurchaseTime: 0,
+    incomeBlockTime:0,
     //nftused: null,
     status: "idle",
     error: null,

@@ -11,13 +11,14 @@ import CountdownTimer from './Timer';
 import Spinner from './Spinner';
 import HexawayPackages from './HexawayPackages';
 import CountdownTimer2 from './Timer2';
+import CountdownTimer3 from './Timer3';
 
 export default function Dashboard() {
 
     const config = useConfig()
     const { Package, myNFTs, packages, downlines, registered, admin, allowance, NFTQueBalance, limitUtilized, NFTque
 
-        , walletBalance, tradingReferralBonus, packageReferralBonus, tradingLevelBonus, packageLevelBonus, selfTradingProfit, nftPurchaseTime,
+        , walletBalance, tradingReferralBonus, packageReferralBonus, tradingLevelBonus, packageLevelBonus, selfTradingProfit, nftPurchaseTime, incomeBlockTime,
         status, error, totalIncome
     } = useSelector((state) => state.contract);
     const { address } = useAppKitAccount();
@@ -94,6 +95,8 @@ export default function Dashboard() {
 
 
     const isLoading = !Package || !downlines || !packages;
+
+    const levelBlockSeconds = Number(incomeBlockTime) + 60 * 60 - now / 1000 < 0 ? 0 : Number(incomeBlockTime) + 60 * 60 - now / 1000
 
     // console.log("dashoard", packageKeys[Package.id].name);
 
@@ -173,7 +176,9 @@ export default function Dashboard() {
                             </div>
 
                             <CountdownTimer durationInSeconds={Number(Package.purchaseTime) + 60 * 60 * 24 * 30 - now / 1000} />
-                            <CountdownTimer2 durationInSeconds={Number(nftPurchaseTime) + 60 * 60 - now / 1000} />
+                            {levelBlockSeconds > 0 ? <CountdownTimer3 durationInSeconds={Number(incomeBlockTime) + 60 * 60 - now / 1000} />
+                                : <CountdownTimer2 durationInSeconds={Number(nftPurchaseTime) + 60 * 60 - now / 1000} />}
+
 
                             {/* <div class="bg-white/95 backdrop-blur-sm border border-white/20 rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
                                 <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Hexaway Packages</h3>
