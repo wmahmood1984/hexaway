@@ -48,7 +48,7 @@ export default function Trade() {
   }
 
 
-  console.log("nn", nfts);
+  console.log("nn", limitUtilized);
 
 
 

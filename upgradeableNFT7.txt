@@ -326,7 +326,7 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
             );
         }else{
             userTradingLimitTime[_user]=block.timestamp;
-            userLimitUtilized[_user]=_package.limit;
+            userLimitUtilized[_user]=0;
         }
 
 
