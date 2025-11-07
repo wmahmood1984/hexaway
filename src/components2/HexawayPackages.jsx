@@ -40,10 +40,11 @@ export default function HexawayPackages({ packages, Package, downlines, handleUp
     const alreadyActive = Number(Package.id) >= i;
 
     // Always allow clicking on current active package for "Re-activate"
+    if (i === 0) return false;
     if (Number(Package.id) === i) return true;
 
     // WELCOME package (index 0) is always available initially
-    if (i === 0) return false;
+
 
     if (!hasPrevPackage || alreadyActive) return false;
 

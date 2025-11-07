@@ -28,6 +28,11 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(false);
 
 
+    useEffect(()=>{},
+    
+    [loading])
+
+
 
 
     const inputRef = useRef();
@@ -113,6 +118,11 @@ export default function Dashboard() {
         );
     }
 
+    const xyz = Math.max(
+                                    0,
+                                    Number(Package.packageUpgraded) + Number(packageExpiryLimit) - Math.floor(Date.now() / 1000)
+                                )
+    const time = Math.floor(Date.now() / 1000)
     const abc = {
         now: Math.floor(Date.now() / 1000),
         purchaseTime: Number(Package.purchaseTime),
@@ -120,7 +130,7 @@ export default function Dashboard() {
         expiry: Number(Package.purchaseTime) + Number(Package.time),
         remaining:Number(Package.purchaseTime) + Number(Package.time)-Math.floor(Date.now() / 1000)}
     console.log("dashboard",
-    Package.purchaseTime);
+    {xyz:xyz,package:Package,expiry:packageExpiryLimit,now:time});
 
 
     return (
