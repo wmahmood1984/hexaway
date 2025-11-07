@@ -130,7 +130,7 @@ export default function Dashboard() {
         expiry: Number(Package.purchaseTime) + Number(Package.time),
         remaining:Number(Package.purchaseTime) + Number(Package.time)-Math.floor(Date.now() / 1000)}
     console.log("dashboard",
-    {xyz:xyz,package:Package,expiry:packageExpiryLimit,now:time});
+    {remaining:xyz,package:Package,expiry:packageExpiryLimit,now:time});
 
 
     return (
@@ -201,7 +201,7 @@ export default function Dashboard() {
 
                                 durationInSeconds={Math.max(
                                     0,
-                                    Number(Package.purchaseTime) + Number(packageExpiryLimit) - Math.floor(Date.now() / 1000)
+                                    Number(Package.packageUpgraded) + Number(packageExpiryLimit) - Math.floor(Date.now() / 1000)
                                 )}
 
                             />
