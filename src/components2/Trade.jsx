@@ -12,7 +12,7 @@ export default function Trade() {
 
         , levelIncome,
         referralIncome,
-        tradingIncome, walletBalance,
+        tradingIncome, walletBalance,userTradingTime,timeLimit,
         status, error
     } = useSelector((state) => state.contract);
 
@@ -46,6 +46,10 @@ export default function Trade() {
       </div>
     );
   }
+
+  const now = new Date().getTime()/1000
+
+  const revisedLimitUtilized = now-Number(userTradingTime)>60*10?0:limitUtilized 
 
 
   console.log("nn", limitUtilized);
@@ -99,7 +103,7 @@ export default function Trade() {
                                     Limit Used
                                 </div>
                                 <div class="text-2xl font-bold text-orange-600" id="trade-limit-used">
-                                    ${formatWithCommas(limitUtilized)}
+                                    ${formatWithCommas(revisedLimitUtilized)}
                                 </div>
                             </div>
                             <div class="text-center p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border border-purple-200">
@@ -111,19 +115,19 @@ export default function Trade() {
                                     Remaining Limit
                                 </div>
                                 <div class="text-2xl font-bold text-purple-600" id="trade-limit-remaining">
-                                    ${formatWithCommas(Number(formatEther(Package.limit))-Number(limitUtilized))}
+                                    ${formatWithCommas(Number(formatEther(Package.limit))-Number(revisedLimitUtilized))}
                                 </div>
                             </div>
                         </div>
                         <div class="mt-6">
-                            <div class="flex items-center justify-between mb-2"><span class="text-sm font-medium text-gray-700">Trading Limit Usage</span> <span class="text-sm text-gray-600" id="trade-usage-percentage">{`${Number(Number(limitUtilized)/Number(formatEther(Package.limit))*100).toFixed(2)}%`}</span>
+                            <div class="flex items-center justify-between mb-2"><span class="text-sm font-medium text-gray-700">Trading Limit Usage</span> <span class="text-sm text-gray-600" id="trade-usage-percentage">{`${Number(Number(revisedLimitUtilized)/Number(formatEther(Package.limit))*100).toFixed(2)}%`}</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-3">
                                 <div id="trade-progress-bar" class="bg-gradient-to-r from-orange-500 to-red-500 h-3 rounded-full transition-all duration-300" 
                                 
-                                style={{ width: `${Number(limitUtilized)/Number(formatEther(Package.limit))*100}%` }}></div>
+                                style={{ width: `${Number(revisedLimitUtilized)/Number(formatEther(Package.limit))*100}%` }}></div>
                             </div>
-                            <div class="flex justify-between text-xs text-gray-500 mt-1"><span>${limitUtilized}</span> <span id="trade-limit-display">${formatWithCommas(formatEther(Package.limit))}</span>
+                            <div class="flex justify-between text-xs text-gray-500 mt-1"><span>${revisedLimitUtilized}</span> <span id="trade-limit-display">${formatWithCommas(formatEther(Package.limit))}</span>
                             </div>
                         </div>
                     </div>
@@ -131,7 +135,7 @@ export default function Trade() {
                         {nfts.map((v,e)=>{
                              if(v._owner!="0x0000000000000000000000000000000000000000"){
                             return (
-                                <NFT nft={v} index={e} toggle={toggle} setToggle={setToggle}/>
+                                <NFT nft={v} index={e} toggle={toggle} setToggle={setToggle} revisedLimitUtilized={revisedLimitUtilized}/>
                                 //     <div class="nft-card bg-white/95 backdrop-blur-md border border-blue-200 rounded-xl shadow-lg overflow-hidden">
                         //     <div class="h-48 bg-gradient-to-br from-purple-900 via-blue-900 to-cyan-900 relative">
                         //         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>

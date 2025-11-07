@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import Spinner from "./Spinner";
 
 
-export const NFT = ({ nft, index, toggle, setToggle }) => {
+export const NFT = ({ nft, index, toggle, setToggle,revisedLimitUtilized }) => {
   const config = useConfig()
   const [image, setImage] = useState()
   const [name, setName] = useState()
@@ -35,7 +35,7 @@ export const NFT = ({ nft, index, toggle, setToggle }) => {
     const packageValid = nowSec - Number(Package.packageUpgraded) <= packageExpiryLimit;
 
     // 2️⃣ Calculate remaining trading limit
-    const remainingLimit = Number(formatEther(Package.limit)) - Number(limitUtilized);
+    const remainingLimit = Number(formatEther(Package.limit)) - Number(revisedLimitUtilized);
 
     // 3️⃣ Calculate NFT total cost (price + 7%)
     const nftValue =

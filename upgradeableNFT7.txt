@@ -20,7 +20,7 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
         __UUPSUpgradeable_init();
         uint32 daysSeconds = (60);
 
-        packageExpiry = 60 * 5;
+        packageExpiry = 60 * 30;
         packages.push(
             Package(0, 2 ether, 0 * daysSeconds, 0, 100 ether, 0, 0, 0, 0)
         ); //0
@@ -327,7 +327,7 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
         NFT storage _nft = nfts[index];
         Package storage _package = userPackage[_user];
 
-        if (block.timestamp - userTradingLimitTime[_user] > 3 minutes) {
+        if (block.timestamp - userTradingLimitTime[_user] > 10 minutes) {
             // Reset after 3 minutes
             userTradingLimitTime[_user] = block.timestamp;
             userLimitUtilized[_user] = 0;

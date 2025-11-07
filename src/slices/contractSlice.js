@@ -74,6 +74,7 @@ export const readName = createAsyncThunk(
       let nftListed = []
       let nftPurchaseTime = 0
       let incomeBlockTime = 0
+      let userTradingTime = 0
 
 
       if (a.address && registered) {
@@ -94,7 +95,8 @@ export const readName = createAsyncThunk(
         nftListed = await safeCall("nftlisted", () => contract.methods.getNFTListed(a.address).call());
         nftPurchaseTime = await safeCall("nftPurchaseTime", () => contract.methods.userTradingTime(a.address).call());
         incomeBlockTime = await safeCall("userLevelIncomeBlockTime", () => contract.methods.userLevelIncomeBlockTime(a.address).call());
-
+userTradingTime = await safeCall("userTradingTime", () => contract.methods.userTradingTime(a.address).call());
+        
       }
 
 
@@ -121,7 +123,7 @@ export const readName = createAsyncThunk(
         nextTokenId,
         timeLimit,
         packageExpiryLimit,
-
+userTradingTime,
         tradingReferralBonus: Number(formatEther(tradingReferralBonus)).toFixed(4),
         packageReferralBonus: Number(formatEther(packageReferralBonus)).toFixed(4),
         tradingLevelBonus: Number(formatEther(tradingLevelBonus)).toFixed(4),
@@ -180,6 +182,7 @@ const contractSlice = createSlice({
     incomeBlockTime:0,
     timeLimit:0,
     packageExpiryLimit:0,
+    userTradingTime:0,
     //nftused: null,
     status: "idle",
     error: null,
