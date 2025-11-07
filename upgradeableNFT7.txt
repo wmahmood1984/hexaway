@@ -287,6 +287,7 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
         tx1.packageUpgraded = block.timestamp;
         tx1.purchaseTime = userPackage[_user].purchaseTime;
         userPackage[_user] = tx1;
+        userLimitUtilized[_user]=0;
 
         paymentToken.transfer(owner(), (amount * 10) / 100);
 
