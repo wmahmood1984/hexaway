@@ -129,12 +129,12 @@ const filteredNFTs = allNFTs.filter((nft) => {
     default:
       return true; // show everything
   }
-});
+}).filter((e)=>e.status!="created");
 
 
     console.log("my nft", allNFTs);
 
-    const totalWei = allNFTs.reduce(
+    const totalWei = allNFTs.filter((e)=>e.status!="created").reduce(
         (acc, nft) => acc + Number(nft.price), 0
     );
     const totalEth = Number(totalWei).toFixed(0);
