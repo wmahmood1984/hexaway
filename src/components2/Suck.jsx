@@ -134,6 +134,7 @@ export default function Suck() {
                 name,
                 description: description,
                 image: imageURI,
+                creator:address,
                 attributes: [],
             };
 
