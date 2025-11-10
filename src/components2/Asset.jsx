@@ -20,7 +20,7 @@ export default function Asset() {
 
     const [allNFTs, setAllNFTs] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [filter,setFilter]= useState("All NFTs")
+    const [filter, setFilter] = useState("All NFTs")
     // ✅ Replace with your own Redux selector for NFTs
 
     const { address } = useAppKitAccount();
@@ -117,24 +117,24 @@ export default function Asset() {
 
 
 
-const filteredNFTs = allNFTs.filter((nft) => {
-  switch (filter) {
-    case "Burn":
-      return nft.status === "burn";
-    case "Created":
-      return nft.status === "created";
-    case "Purchased":
-      return nft.status === "purchased";
-    case "All NFTs":
-    default:
-      return true; // show everything
-  }
-}).filter((e)=>e.status!="created");
+    const filteredNFTs = allNFTs.filter((nft) => {
+        switch (filter) {
+            case "Burn":
+                return nft.status === "burn";
+            case "Created":
+                return nft.status === "created";
+            case "Purchased":
+                return nft.status === "purchased";
+            case "All NFTs":
+            default:
+                return true; // show everything
+        }
+    }).filter((e) => e.status != "created");
 
 
     console.log("my nft", allNFTs);
 
-    const totalWei = allNFTs.filter((e)=>e.status!="created").reduce(
+    const totalWei = allNFTs.filter((e) => e.status != "created").reduce(
         (acc, nft) => acc + Number(nft.price), 0
     );
     const totalEth = Number(totalWei).toFixed(0);
@@ -154,6 +154,18 @@ const filteredNFTs = allNFTs.filter((nft) => {
                     </header>
                     <section class="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl border border-white/20 p-6 sm:p-8 mb-8 sm:mb-12">
                         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
+                            <div class="flex justify-center mt-10 -mb-[-10px]">
+                                <button
+                                    onclick="showPage('history')"
+                                    class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 font-medium shadow-lg flex items-center space-x-2"
+                                >
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <Link to="/nftcreationdetails">Creation History</Link>
+                                </button>
+                            </div>
                             {/* <div class="text-center p-4 sm:p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl border border-green-200 shadow-sm hover:shadow-lg transition-all">
                                 <div class="text-3xl sm:text-4xl lg:text-5xl font-bold text-green-600 mb-2">
                                     {createdNFTs.length}
@@ -211,7 +223,7 @@ const filteredNFTs = allNFTs.filter((nft) => {
                     <section class="mb-6">
                         <div class="flex flex-wrap items-center justify-center gap-3">
                             <button id="filter-all"
-                                onClick={(e)=>{setFilter("All NFTs")}}
+                                onClick={(e) => { setFilter("All NFTs") }}
                                 class="filter-btn px-6 py-2.5 rounded-xl font-semibold transition-all bg-indigo-600 text-white shadow-lg hover:bg-indigo-700">
                                 All NFTs </button>
                             {/* <button id="filter-created"
@@ -219,11 +231,11 @@ const filteredNFTs = allNFTs.filter((nft) => {
                                 class="filter-btn px-6 py-2.5 rounded-xl font-semibold transition-all bg-white text-gray-700 border-2 border-gray-200 hover:border-green-500 hover:text-green-600">
                                 Created </button> */}
                             <button id="filter-purchased"
-                                                            onClick={(e)=>{setFilter("Purchased")}}
+                                onClick={(e) => { setFilter("Purchased") }}
                                 class="filter-btn px-6 py-2.5 rounded-xl font-semibold transition-all bg-white text-gray-700 border-2 border-gray-200 hover:border-blue-500 hover:text-blue-600">
                                 Purchased </button>
                             <button id="filter-burn"
-                                                            onClick={(e)=>{setFilter("Burn")}}
+                                onClick={(e) => { setFilter("Burn") }}
                                 class="filter-btn px-6 py-2.5 rounded-xl font-semibold transition-all bg-white text-gray-700 border-2 border-gray-200 hover:border-orange-500 hover:text-orange-600">
                                 Burn </button>
                         </div>
@@ -238,15 +250,15 @@ const filteredNFTs = allNFTs.filter((nft) => {
                         <div id="nft-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                             {filteredNFTs.map((v, e) => {
                                 return (
-                                    <NFT 
-                                    
-                                    name={v.name}
-                                    description={v.description}
-                                    image={v.image}
-                                    price={v.price}
-                                    status={v.status}
-                                    
-                                    index={e}></NFT>
+                                    <NFT
+
+                                        name={v.name}
+                                        description={v.description}
+                                        image={v.image}
+                                        price={v.price}
+                                        status={v.status}
+
+                                        index={e}></NFT>
                                 )
                             })}
 

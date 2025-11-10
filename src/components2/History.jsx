@@ -129,6 +129,7 @@ export default function History() {
                         v.returnValues._type == '2'? `Level ${v.returnValues.level} Commission for Toke id# ${v.returnValues.id}`
                          :v.returnValues._type == '4'? `Self Trading profit for Token id# ${v.returnValues.id}`
                          :v.returnValues._type == '0'? `For Token id# ${v.returnValues.id}`
+                         :v.returnValues._type == '5'? `For Token id# ${v.returnValues.id}`
                         :`Package Upgrade Bonus`,
                     svg: incomeKeys[v.returnValues._type].svg,
                     class: incomeKeys[v.returnValues._type].class,
@@ -247,7 +248,7 @@ export default function History() {
                                 <option value="NFT Trade">NFT Trade</option>
                                 <option value="Trading Referral Bonus">Trading Referral Bonus</option>
                                 <option value="Package Referral Bonus">Package Referral Bonus</option>
-
+                                <option value="NFT Creation Royalty">NFT Creation Royalty</option>
                                 <option value="NFT Purchase">NFT Purchase</option>
                                 <option value="NFT Creation">NFT Creation</option>
                                 <option value="Package Level Bonus">Package Level Bonus</option>

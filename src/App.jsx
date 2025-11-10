@@ -15,6 +15,7 @@ import { init, readName } from './slices/contractSlice'
 import { useAppKitAccount } from '@reown/appkit/react'
 import Suck from './components2/Suck'
 import CreateHistory from './components2/CreateHistory'
+import NFTCreationDetails from './components2/NFTCreationDetails'
 
 export default function App() {
 
@@ -70,6 +71,7 @@ export default function App() {
                 <Route path="/history" element={<History />} />
                 <Route path="/suck" element={<Suck />} />
                 <Route path="/createhistory" element={<CreateHistory />} />
+                <Route path="/nftcreationdetails" element={<NFTCreationDetails />} />
 
                 <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
