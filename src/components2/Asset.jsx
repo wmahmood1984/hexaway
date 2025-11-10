@@ -138,7 +138,7 @@ export default function Asset() {
     const totalWei = allNFTs.filter((e) => e.status != "created").reduce(
         (acc, nft) => acc + Number(nft.price), 0
     );
-    const totalEth = Number(totalWei).toFixed(0);
+    const totalEth = Number(totalWei).toFixed(1);
 
 
 
