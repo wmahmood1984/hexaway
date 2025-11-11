@@ -163,7 +163,7 @@ export default function Asset() {
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <Link to="/createhistory">Creation History</Link>
+                                    <Link to="/nftcreationdetails">Creation History</Link>
                                 </button>
                             </div>
                     <section class="bg-white/95 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl border border-white/20 p-6 sm:p-8 mb-8 sm:mb-12">

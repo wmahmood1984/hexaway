@@ -150,6 +150,7 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
     bool public NFTMayBeCreated;
     uint public packageExpiry;
     bool public mintPause;
+    uint public nftQueIndex;
 
     queIncome[] public NFTQue;
 
@@ -158,7 +159,7 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
 
     IERC20 public paymentToken; // ERC20 token used for payments
     mapping(address => User) public users;
-    uint previousFund;
+    
 
     function register(address _ref, address _user, uint funds) public {
         address _referrer = _ref != address(0) ? _ref : owner();
@@ -377,6 +378,7 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
         }
         // NFTQue handling if threshold reached
         if (NFTQue.length > 1 && NFTQue[0].income >= 3 ether) {
+            nftQueIndex++;
             // removeFirst();
          }
 
@@ -459,13 +461,13 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
 
         if (NFTQue.length > 0) {
             paymentToken.transfer(
-                NFTQue[0].user,
+                NFTQue[nftQueIndex].user,
                 ((amount * percentageAtBuyToNFTQue) / percentageAtBuy)
             );
-            NFTQueBalance[NFTQue[0].user] += ((amount * percentageAtBuyToNFTQue) /
+            NFTQueBalance[NFTQue[nftQueIndex].user] += ((amount * percentageAtBuyToNFTQue) /
                 percentageAtBuy);
             
-            NFTQue[0].income+=((amount * percentageAtBuyToNFTQue) /
+            NFTQue[nftQueIndex].income+=((amount * percentageAtBuyToNFTQue) /
                 percentageAtBuy);
 
             emit Incomes(
@@ -596,14 +598,14 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
         );
     }
 
-    function removeFirst() internal {
-        // require(NFTQue.length > 0, "9");
+    // function removeFirst() internal {
+    //     // require(NFTQue.length > 0, "9");
 
-        for (uint i = 0; i < NFTQue.length - 1; i++) {
-            NFTQue[i] = NFTQue[i + 1];
-        }
-        NFTQue.pop(); // remove last element
-    }
+    //     for (uint i = 0; i < NFTQue.length - 1; i++) {
+    //         NFTQue[i] = NFTQue[i + 1];
+    //     }
+    //     NFTQue.pop(); // remove last element
+    // }
 
     function removeFirst2() internal {
         // require(nftused.length > 0, "9");
@@ -749,7 +751,7 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
 
     function withdrawUSDT() public onlyOwner {
         paymentToken.transfer(owner(), paymentToken.balanceOf(address(this)));
-        previousFund = 0;
+    
     }
 
     function _authorizeUpgrade(
