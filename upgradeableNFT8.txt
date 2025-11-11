@@ -20,7 +20,7 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
         __UUPSUpgradeable_init();
         uint32 daysSeconds = (60);
 
-        packageExpiry = 60 * 30;
+        packageExpiry = 60 * 60*4;
         packages.push(
             Package(0, 2 ether, 0 * daysSeconds, 0, 100 ether, 0, 0, 0, 0)
         ); //0
@@ -555,9 +555,10 @@ contract Helper is Initializable, OwnableUpgradeable, UUPSUpgradeable {
                 ? // ((userPackage[up].id == 5 &&
                 //     userPackage[up].id != 5) &&
 
-                users[up].direct.length >= 2 // ((userPackage[up].id == 5 && // Package buy
-                //     userLimitUtilized[up] >= (userPackage[up].limit / 2)) ||
-                : //     userPackage[up].id != 5) &&
+                users[up].direct.length >= 2:
+                 ((userPackage[up].id == 5 && // Package buy
+                    userLimitUtilized[up] >= (userPackage[up].limit / 10)) ||
+                     userPackage[up].id != 5) &&
                 userPackage[up].levelUnlock >= i &&
                     users[up].direct.length >= userPackage[up].directrequired;
             uint transactionType = _type == 1 ? 2 : 3;

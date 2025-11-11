@@ -21,7 +21,7 @@ export default function Dashboard() {
     const { Package, myNFTs, packages, downlines, registered, admin, allowance, NFTQueBalance, limitUtilized, NFTque
 
         , walletBalance, tradingReferralBonus, packageReferralBonus, tradingLevelBonus, packageLevelBonus, selfTradingProfit, nftPurchaseTime, incomeBlockTime,
-        status, error, totalIncome, timeLimit, packageExpiryLimit
+        status, error, totalIncome, timeLimit, packageExpiryLimit, nftQueIndex
     } = useSelector((state) => state.contract);
     const { address } = useAppKitAccount();
     const [referrer, setReferrer] = useState()
@@ -92,7 +92,11 @@ export default function Dashboard() {
     };
 
     const normalizedAddr = address && address.toLowerCase();
-    const normalizedQue = NFTque && NFTque.map(a => a.user.toLowerCase());
+    const normalizedQue = NFTque
+        ?.map(a => a.user.toLowerCase())
+        .filter((_, e) => e >= nftQueIndex);
+
+
 
 
     const NFTQueStatus = NFTque && normalizedQue.indexOf(normalizedAddr) < 0

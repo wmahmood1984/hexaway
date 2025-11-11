@@ -53,6 +53,7 @@ export const readName = createAsyncThunk(
       const nextTokenId = await safeCall("_nextTokenId", () => nftContract.methods._nextTokenId().call());
       const timeLimit = await safeCall("timelimit", () => contract.methods.timelimit().call());
       const packageExpiryLimit = await safeCall("packageExpiry", () => contract.methods.packageExpiry().call());
+      const nftQueIndex = await safeCall("nftQueIndex", ()=>contract.methods.nftQueIndex().call())
 
       //      const nftused = await safeCall("nftused(0)", () => contract.methods.getNFTused().call());
 
@@ -95,7 +96,7 @@ export const readName = createAsyncThunk(
         nftListed = await safeCall("nftlisted", () => contract.methods.getNFTListed(a.address).call());
         nftPurchaseTime = await safeCall("nftPurchaseTime", () => contract.methods.userTradingTime(a.address).call());
         incomeBlockTime = await safeCall("userLevelIncomeBlockTime", () => contract.methods.userLevelIncomeBlockTime(a.address).call());
-userTradingTime = await safeCall("userTradingTime", () => contract.methods.userTradingTime(a.address).call());
+        userTradingTime = await safeCall("userTradingTime", () => contract.methods.userTradingTime(a.address).call());
         
       }
 
@@ -137,7 +138,7 @@ userTradingTime,
           Number(formatEther(packageLevelBonus)) +
           Number(formatEther(selfTradingProfit))
         ).toFixed(4), nftListed,
-        nftPurchaseTime,incomeBlockTime
+        nftPurchaseTime,incomeBlockTime,nftQueIndex
 
 
         //      nftused,
@@ -183,6 +184,7 @@ const contractSlice = createSlice({
     timeLimit:0,
     packageExpiryLimit:0,
     userTradingTime:0,
+    nftQueIndex:0,
     //nftused: null,
     status: "idle",
     error: null,
