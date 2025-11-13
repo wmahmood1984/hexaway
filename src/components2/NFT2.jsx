@@ -34,6 +34,8 @@ export const NFT = ({ name,description,image,price,status,id }) => {
 
     const isLoading = !image || !name || !description;
 
+        console.log("my nft",image,name,description);
+
     if (isLoading) {
         // show a waiting/loading screen
         return (

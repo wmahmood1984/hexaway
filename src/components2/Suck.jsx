@@ -29,8 +29,8 @@ export default function Suck() {
     const [nfts, setNFTs] = useState()
     const [sortType, setSortType] = useState("All")
     const { address } = useAppKitAccount();
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
+    const [name, setName] = useState("not set");
+    const [description, setDescription] = useState("not set");
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(false);
     const config = useConfig()
