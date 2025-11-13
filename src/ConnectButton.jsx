@@ -1,8 +1,10 @@
 import { useAppKit, useAppKitAccount, useDisconnect } from "@reown/appkit/react";
+import { useNavigate } from "react-router-dom";
 
 export default function ConnectButton() {
     const { open} = useAppKit()
     const {disconnect} = useDisconnect()
+    const navigate = useNavigate()
 
     const { address, isConnected,  } = useAppKitAccount()
     
@@ -14,17 +16,12 @@ export default function ConnectButton() {
                 onClick={async () => {
                     if (isConnected) {
                         await disconnect()
+                        navigate("/auth")
+
                     } else {
                         await open()
                     }
                 }}
-                // style={{
-                //     border: "2px solid blue",
-                //     padding: "10px 20px",
-                //     backgroundColor: "transparent",
-                //     cursor: "pointer",
-                //     transition: "border-color 0.3s"
-                // }}
                 onMouseOver={(e) => {
                     e.currentTarget.style.borderColor = "green";
                 }}
